@@ -31,7 +31,6 @@ use core_completion\activity_custom_completion;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class custom_completion extends activity_custom_completion {
-
     /**
      * Fetches the completion state for a given completion rule.
      *
@@ -54,7 +53,6 @@ class custom_completion extends activity_custom_completion {
         $allcards = $DB->count_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
 
         if ($rule == 'completionallgood') {
-
             // Match any card that are NOT in last deck.
             $sql = "
                 SELECT
@@ -66,7 +64,7 @@ class custom_completion extends activity_custom_completion {
                     c.flashcardid = ? AND
                     c.deck = ?
             ";
-            $result = $DB->count_records_sql($sql, array($userid, $flashcard->id, $flashcard->decks));
+            $result = $DB->count_records_sql($sql, [$userid, $flashcard->id, $flashcard->decks]);
         } else if ($rule == 'completionallviewed') {
             // Allgood superseedes allviewed.
 

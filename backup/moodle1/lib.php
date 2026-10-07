@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
  * Flashcard module conversion handler
  */
 class moodle1_mod_flashcard_handler extends moodle1_mod_handler {
-
     /** @var moodle1_file_manager */
     protected $fileman = null;
 
@@ -50,29 +49,31 @@ class moodle1_mod_flashcard_handler extends moodle1_mod_handler {
      * @return array of {@link convert_path} instances
      */
     public function get_paths() {
-        return array(
+        return [
             new convert_path(
-                'flashcard', '/MOODLE_BACKUP/COURSE/MODULES/MOD/FLASHCARD',
-                array(
-                    'renamefields' => array(
+                'flashcard',
+                '/MOODLE_BACKUP/COURSE/MODULES/MOD/FLASHCARD',
+                [
+                    'renamefields' => [
                         'summary' => 'intro',
                         'summaryformat' => 'introformat',
-                    ),
-                    'newfields' => array(
+                    ],
+                    'newfields' => [
                         'autonumbering' => 1,
                         'site_after_submit' => '',
                         'introformat' => 0,
                         'page_after_submitformat' => 0,
                         'completionsubmit' => 0,
-                    ),
-                )
+                    ],
+                ]
             ),
             new convert_path(
-                'flashcard_deckdata', '/MOODLE_BACKUP/COURSE/MODULES/MOD/FLASHCARD/DECK/CARD',
-                array (
-                )
+                'flashcard_deckdata',
+                '/MOODLE_BACKUP/COURSE/MODULES/MOD/FLASHCARD/DECK/CARD',
+                [
+                ]
             ),
-        );
+        ];
     }
 
     /**
@@ -96,9 +97,9 @@ class moodle1_mod_flashcard_handler extends moodle1_mod_handler {
 
         // Start writing flashcard.xml.
         $this->open_xml_writer("activities/flashcard_{$this->moduleid}/flashcard.xml");
-        $this->xmlwriter->begin_tag('activity', array('id' => $instanceid, 'moduleid' => $this->moduleid,
-            'modulename' => 'flashcard', 'contextid' => $contextid));
-        $this->xmlwriter->begin_tag('flashcard', array('id' => $instanceid));
+        $this->xmlwriter->begin_tag('activity', ['id' => $instanceid, 'moduleid' => $this->moduleid,
+            'modulename' => 'flashcard', 'contextid' => $contextid]);
+        $this->xmlwriter->begin_tag('flashcard', ['id' => $instanceid]);
 
         foreach ($data as $field => $value) {
             if ($field <> 'id') {
@@ -116,7 +117,7 @@ class moodle1_mod_flashcard_handler extends moodle1_mod_handler {
      * data available
      */
     public function process_flashcard_deckdata($data) {
-        $this->write_xml('deck', $data, array('/deck/id'));
+        $this->write_xml('deck', $data, ['/deck/id']);
 
         $contextid = $this->converter->get_contextid(CONTEXT_MODULE, $this->moduleid);
 
@@ -149,7 +150,7 @@ class moodle1_mod_flashcard_handler extends moodle1_mod_handler {
         $this->xmlwriter->begin_tag('inforef');
         $this->xmlwriter->begin_tag('fileref');
         foreach ($this->fileman->get_fileids() as $fileid) {
-            $this->write_xml('file', array('id' => $fileid));
+            $this->write_xml('file', ['id' => $fileid]);
         }
         $this->xmlwriter->end_tag('fileref');
         $this->xmlwriter->end_tag('inforef');

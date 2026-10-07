@@ -26,7 +26,6 @@
 namespace mod_flashcard\task;
 
 class cron_task extends \core\task\scheduled_task {
-
     /**
      * Get a descriptive name for this task (shown to admins).
      *
@@ -44,5 +43,4 @@ class cron_task extends \core\task\scheduled_task {
         require_once($CFG->dirroot . '/mod/flashcard/cronlib.php');
         flashcard_cron_task();
     }
-
 }

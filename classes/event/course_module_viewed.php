@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
  * Event for when a flashcard activity is viewed.
  */
 class course_module_viewed extends \core\event\course_module_viewed {
-
     /**
      * Init method.
      */
@@ -38,6 +37,4 @@ class course_module_viewed extends \core\event\course_module_viewed {
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'flashcard';
     }
-
 }
-

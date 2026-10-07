@@ -295,4 +295,3 @@ $string['notify_review_html_tpl'] = '
 dans le cours <b><%%COURSE%%></b> : </p>
 
 <a href="<%%URL%%>"><%%URL%%></a>';
-

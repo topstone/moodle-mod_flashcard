@@ -60,6 +60,5 @@ function flashcard_compile_mail_template($template, $infomap, $lang = '') {
  */
 function flashcard_get_mail_template($virtual, $lang = '') {
 
-    return new lang_string($virtual.'_tpl', 'mod_flashcard', '', $lang);
-
+    return new lang_string($virtual . '_tpl', 'mod_flashcard', '', $lang);
 }

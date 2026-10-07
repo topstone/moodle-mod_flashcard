@@ -23,10 +23,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/flashcard/backup/moodle2/restore_flashcard_stepslib.php');
+require_once($CFG->dirroot . '/mod/flashcard/backup/moodle2/restore_flashcard_stepslib.php');
 
 class restore_flashcard_activity_task extends restore_activity_task {
-
     protected function define_my_settings() {
         assert(1);
     }
@@ -35,17 +34,17 @@ class restore_flashcard_activity_task extends restore_activity_task {
         $this->add_step(new restore_flashcard_activity_structure_step('flashcard_structure', 'flashcard.xml'));
     }
 
-    static public function define_decode_contents() {
+    public static function define_decode_contents() {
 
-        $contents = array();
-        $contents[] = new restore_decode_content('flashcard', array('intro'), 'flashcard');
+        $contents = [];
+        $contents[] = new restore_decode_content('flashcard', ['intro'], 'flashcard');
 
         return $contents;
     }
 
-    static public function define_decode_rules() {
+    public static function define_decode_rules() {
 
-        $rules = array();
+        $rules = [];
         $rules[] = new restore_decode_rule('FLASHCARDINDEX', '/mod/flashcard/index.php?id=$1', 'course');
         $rules[] = new restore_decode_rule('FLASHCARDVIEWBYID', '/mod/flashcard/view.php?id=$1', 'course_module');
         $rules[] = new restore_decode_rule('FLASHCARDREPORT', '/mod/flashcard/report.php?id=$1', 'course_module');
@@ -54,8 +53,8 @@ class restore_flashcard_activity_task extends restore_activity_task {
         return $rules;
     }
 
-    static public function define_restore_log_rules() {
-        $rules = array();
+    public static function define_restore_log_rules() {
+        $rules = [];
         return $rules;
     }
 }

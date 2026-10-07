@@ -23,10 +23,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/flashcard/backup/moodle2/backup_flashcard_stepslib.php');
+require_once($CFG->dirroot . '/mod/flashcard/backup/moodle2/backup_flashcard_stepslib.php');
 
 class backup_flashcard_activity_task extends backup_activity_task {
-
     protected function define_my_settings() {
         assert(1);
     }
@@ -35,7 +34,7 @@ class backup_flashcard_activity_task extends backup_activity_task {
         $this->add_step(new backup_flashcard_activity_structure_step('flashcard_structure', 'flashcard.xml'));
     }
 
-    static public function encode_content_links($content) {
+    public static function encode_content_links($content) {
         global $CFG;
 
         return $content;

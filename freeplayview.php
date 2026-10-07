@@ -24,7 +24,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$subquestions = $DB->get_records('flashcard_deckdata', array('flashcardid' => $flashcard->id));
+$subquestions = $DB->get_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
 
 if (empty($subquestions)) {
     echo $out;
@@ -58,7 +58,7 @@ var qtype = "<?php echo $flashcard->questionsmediatype ?>";
 var atype = "<?php echo $flashcard->answersmediatype ?>";
 //]]>
 </script>
-<script src="<?php echo $CFG->wwwroot.'/mod/flashcard/js/module.js' ?>"></script>
+<script src="<?php echo $CFG->wwwroot . '/mod/flashcard/js/module.js' ?>"></script>
 
 <p><?php print_string('freeplayinstructions', 'flashcard'); ?>.</p>
 <?php
@@ -80,10 +80,10 @@ foreach ($subquestions as $subquestion) {
     $divid = "f$i";
     $divstyle = ($i > 0) ? 'display:none' : '';
     $imageurl = $renderer->print_custom_url($flashcard, 'customback', 0);
-    echo '<div id="'.$divid.'"
+    echo '<div id="' . $divid . '"
                class="flashcard-question"
-               style="'.$divstyle.';background-repeat:no-repeat;background-image:url('.$imageurl.')"
-               onclick="javascript:clicked(\'f\', \''.$i.'\')">';
+               style="' . $divstyle . ';background-repeat:no-repeat;background-image:url(' . $imageurl . ')"
+               onclick="javascript:clicked(\'f\', \'' . $i . '\')">';
 
     $back = 'question';
     $front = 'answer';
@@ -132,10 +132,10 @@ foreach ($subquestions as $subquestion) {
     echo '<center>';
 
     $imageurl = $renderer->print_custom_url($flashcard, 'customfront', 0);
-    echo '<div id="b'.$i.'"
+    echo '<div id="b' . $i . '"
                class="flashcard-answer"
-               style="display:none;background-repeat:no-repeat;background-image:url('.$imageurl.')"
-               onclick="javascript:clicked(\'b\', \''.$i.'\')">';
+               style="display:none;background-repeat:no-repeat;background-image:url(' . $imageurl . ')"
+               onclick="javascript:clicked(\'b\', \'' . $i . '\')">';
     echo '<table width="100%" height="100%">';
     echo '<tr>';
     echo '<td align="center" valign="center" style="">';
