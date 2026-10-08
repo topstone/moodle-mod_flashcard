@@ -28,10 +28,10 @@ require('../../config.php');
 require_once($CFG->dirroot.'/mod/flashcard/lib.php');
 require_once($CFG->dirroot.'/mod/flashcard/locallib.php');
 
-$PAGE->requires->js('/mod/flashcard/js/ufo/ufo.js', true);
-$PAGE->requires->js('/mod/flashcard/js/module.js', false);
-$PAGE->requires->css('/mod/flashcard/players/flowplayer/skin/minimalist.css');
-$PAGE->requires->js('/mod/flashcard/players/flowplayer/flowplayer.js');
+$this->page->requires->js('/mod/flashcard/js/ufo/ufo.js', true);
+$this->page->requires->js('/mod/flashcard/js/module.js', false);
+$this->page->requires->css('/mod/flashcard/players/flowplayer/skin/minimalist.css');
+$this->page->requires->js('/mod/flashcard/players/flowplayer/flowplayer.js');
 
 $id = optional_param('id', '', PARAM_INT);    // Course Module ID, or.
 $f = optional_param('f', '', PARAM_INT);     // Flashcard ID.
@@ -52,7 +52,7 @@ if (!empty($action)) {
 }
 $url = new moodle_url('/mod/flashcard/view.php', $params);
 
-$PAGE->set_url($url);
+$this->page->set_url($url);
 if ($id) {
     if (! $cm = $DB->get_record('course_modules', array('id' => $id))) {
         print_error('invalidcoursemodule');
@@ -75,8 +75,8 @@ if ($id) {
     }
 }
 // M4
-$PAGE->set_cm($cm);
-$PAGE->set_activity_record($flashcard);
+$this->page->set_cm($cm);
+$this->page->set_activity_record($flashcard);
 
 // Security.
 
@@ -87,14 +87,14 @@ $context = context_module::instance($cm->id);
 
 $strflashcards = get_string('modulenameplural', 'flashcard');
 $strflashcard  = get_string('modulename', 'flashcard');
-$PAGE->set_title("$course->shortname: $flashcard->name");
-$PAGE->set_heading("$course->fullname");
-$PAGE->navbar->add($strflashcards, new moodle_url('/mod/flashcard/index.php', array('id' => $course->id)));
-$PAGE->navbar->add($flashcard->name);
-$PAGE->set_focuscontrol('');
-$PAGE->set_cacheable(true);
+$this->page->set_title("$course->shortname: $flashcard->name");
+$this->page->set_heading("$course->fullname");
+$this->page->navbar->add($strflashcards, new moodle_url('/mod/flashcard/index.php', array('id' => $course->id)));
+$this->page->navbar->add($flashcard->name);
+$this->page->set_focuscontrol('');
+$this->page->set_cacheable(true);
 
-$renderer = $PAGE->get_renderer('mod_flashcard');
+$renderer = $this->page->get_renderer('mod_flashcard');
 
 $out = $OUTPUT->header();
 
