@@ -50,11 +50,11 @@ if ($action == 'delete') {
         flashcard_delete_attached_files($cm, $flashcard, $card);
 
         if (!$DB->delete_records('flashcard_deckdata', array('id' => $item))) {
-            print_error('errordeletecard', 'flashcard');
+            throw new \moodle_exception('errordeletecard', 'flashcard');
         }
 
         if (!$DB->delete_records('flashcard_card', array('entryid' => $item))) {
-            print_error('errordeletecard', 'flashcard');
+            throw new \moodle_exception('errordeletecard', 'flashcard');
         }
     }
 }

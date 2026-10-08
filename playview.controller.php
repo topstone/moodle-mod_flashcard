@@ -72,7 +72,7 @@ if ($action == 'igotit') {
     $card->lastaccessed = time();
     $card->accesscount++;
     if (!$DB->update_record('flashcard_card', $card)) {
-        print_error('dbcouldnotupdate', 'flashcard', '', get_string('cardinfo', 'flashcard'));
+        throw new \moodle_exception('dbcouldnotupdate', 'flashcard', '', null, get_string('cardinfo', 'flashcard'));
     }
 
     /*
@@ -123,7 +123,7 @@ if ($action == 'ifailed') {
     $card->accesscount++;
 
     if (!$DB->update_record('flashcard_card', $card)) {
-        print_error('dbcouldnotupdate', 'flashcard', '', get_string('cardinfo', 'flashcard'));
+        throw new \moodle_exception('dbcouldnotupdate', 'flashcard', '', null, get_string('cardinfo', 'flashcard'));
     }
     if (isset($SESSION->flashcard_consumed)) {
         $SESSION->flashcard_consumed .= ','.$card->id;

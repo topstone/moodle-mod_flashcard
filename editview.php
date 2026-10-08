@@ -209,7 +209,7 @@ if ($data = $mform->get_data()) {
             }
         }
         if (!$DB->update_record('flashcard_deckdata', $card)) {
-            print_error('errorupdatecard', 'flashcard');
+            throw new \moodle_exception('errorupdatecard', 'flashcard');
         }
     }
 
