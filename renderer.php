@@ -31,7 +31,6 @@ require_once($CFG->dirroot.'/repository/lib.php');
 class mod_flashcard_renderer extends plugin_renderer_base {
 
     public function filepicker($elname, $value, $contextid, $filearea, $cardid, $maxbytes, $acceptedtypes = '*') {
-        global $COURSE, $PAGE;
 
         $str = '';
 
@@ -45,7 +44,7 @@ class mod_flashcard_renderer extends plugin_renderer_base {
             $draftitemid = file_get_unused_draft_itemid();
         }
 
-        if ($COURSE->id == SITEID) {
+        if ($this->page->course->id == SITEID) {
             $context = context_system::instance();
         } else {
             $context = context_course::instance($COURSE->id);
