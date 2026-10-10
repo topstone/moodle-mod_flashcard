@@ -96,7 +96,7 @@ foreach ($flashcards as $flashcard) {
         $link = '<a href="'.$instanceurl.'">'.$flashcard->name.'</a>';
     }
 
-    if ($course->format == 'weeks' or $course->format == 'topics') {
+    if ($course->format == 'weeks' || $course->format == 'topics') {
         $table->data[] = array($flashcard->section, $link);
     } else {
         $table->data[] = array($link);
