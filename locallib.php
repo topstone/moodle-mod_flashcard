@@ -96,7 +96,7 @@ function flashcard_initialize(&$flashcard, $userid) {
             $card->deck = 1;
             $card->entryid = $subquestion->id;
             if (! $DB->insert_record('flashcard_card', $card)) {
-                print_error('dbcouldnotinsert', 'flashcard');
+                throw new \moodle_exception('dbcouldnotinsert', 'flashcard');
             }
         }
     } else {

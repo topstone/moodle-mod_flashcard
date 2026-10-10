@@ -30,7 +30,7 @@ require_once($CFG->dirroot.'/mod/flashcard/lib.php');
 $id = required_param('id', PARAM_INT); // Course id.
 
 if (!$course = $DB->get_record('course', array('id' => $id))) {
-    print_error('coursemisconf');
+    throw new \moodle_exception('coursemisconf');
 }
 
 // Security.

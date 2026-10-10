@@ -55,23 +55,23 @@ $url = new moodle_url('/mod/flashcard/view.php', $params);
 $PAGE->set_url($url);
 if ($id) {
     if (! $cm = $DB->get_record('course_modules', array('id' => $id))) {
-        print_error('invalidcoursemodule');
+        throw new \moodle_exception('invalidcoursemodule');
     }
     if (! $course = $DB->get_record('course', array('id' => $cm->course))) {
-        print_error('coursemisconf');
+        throw new \moodle_exception('coursemisconf');
     }
     if (! $flashcard = $DB->get_record('flashcard', array('id' => $cm->instance))) {
-        print_error('errorinvalidflashcardid', 'flashcard');
+        throw new \moodle_exception('errorinvalidflashcardid', 'flashcard');
     }
 } else {
     if (! $flashcard = $DB->get_record('flashcard', array('id' => $f))) {
-        print_error('invalidcoursemodule');
+        throw new \moodle_exception('invalidcoursemodule');
     }
     if (! $course = $DB->get_record('course', array('id' => $flashcard->course))) {
-        print_error('coursemisconf');
+        throw new \moodle_exception('coursemisconf');
     }
     if (! $cm = get_coursemodule_from_instance('flashcard', $flashcard->id, $course->id)) {
-        print_error('errorinvalidflashcardid', 'flashcard');
+        throw new \moodle_exception('errorinvalidflashcardid', 'flashcard');
     }
 }
 // M4

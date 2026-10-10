@@ -160,7 +160,7 @@ class CardEdit_Form extends moodleform {
                 break;
 
             default:
-                print_error('errorunsupportedformat', 'flashcard');
+                throw new \moodle_exception('errorunsupportedformat', 'flashcard');
         }
 
         $fileoptions = array('subdirs' => 0, 'maxbytes' => $COURSE->maxbytes, 'maxfiles' => 1);
