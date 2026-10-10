@@ -321,7 +321,7 @@ function xmldb_flashcard_upgrade($oldversion = 0) {
     // Version Unconditionnaly play this upgrade script for handling Tomas Muraz version hook reintegration.
     // Code contribution from RemoteLearner. (Logan Reynolds).
     $table = new xmldb_table('flashcard');
-    if (!$dbman->field_exists($table, 'audiostart') and $dbman->field_exists($table, 'flipdeck')) {
+    if (!$dbman->field_exists($table, 'audiostart') && $dbman->field_exists($table, 'flipdeck')) {
 
         // Create remaining columns to bring table structure up to assumed version# 2014051200 from previous author's code.
         $field = new xmldb_field('audiostart');
