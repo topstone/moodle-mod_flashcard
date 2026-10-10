@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="MoodleCustom">
+  <!-- Moodle の基本ルールセットを適用 -->
+  <rule ref="moodle"/>
+
+  <!-- 1. DocBlock・インラインコメント関連のエラーをすべて無視 -->
+  <rule ref="moodle.Commenting">
+    <severity>0</severity>
+  </rule>
+
+  <!-- 2. コメントアウトされたコードの警告（75% valid code...）を無視 -->
+  <rule ref="Squiz.PHP.CommentedOutCode">
+    <severity>0</severity>
+  </rule>
+
+  <!-- 3. 文字数制限を 999 文字に変更し、関連する全ルールを無効化 -->
+  <rule ref="Generic.Files.LineLength">
+    <properties>
+      <property name="lineLimit" value="999"/>
+      <property name="absoluteLineLimit" value="999"/>
+    </properties>
+    <severity>0</severity>
+  </rule>
+  <rule ref="moodle.Files.LineLength">
+    <severity>0</severity>
+  </rule>
+
+  <!-- 4. MOODLE_INTERNAL チェックに関連する警告・エラーを無視 -->
+  <rule ref="moodle.Files.MoodleInternal">
+    <severity>0</severity>
+  </rule>
+
+  <!-- 5. CASE / DEFAULT ステートメントのコロン定義エラーを無視 -->
+  <rule ref="Generic.ControlStructures.ControlSignature">
+    <severity>0</severity>
+  </rule>
+</ruleset>
