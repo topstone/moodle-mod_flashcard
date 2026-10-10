@@ -32,14 +32,14 @@ $this->page->requires->js('/mod/flashcard/players/flowplayer/flowplayer.js');
 // We need it in controller.
 $deck = required_param('deck', PARAM_INT);
 
-$subquestions = $DB->get_records('flashcard_deckdata', array('flashcardid' => $flashcard->id));
+$subquestions = $DB->get_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
 
 if ($action != '') {
-    include($CFG->dirroot.'/mod/flashcard/playview.controller.php');
+    include($CFG->dirroot . '/mod/flashcard/playview.controller.php');
 }
 
 // Unmark state for this deck.
-$params = array('userid' => $USER->id, 'flashcardid' => $flashcard->id, 'deck' => $deck);
+$params = ['userid' => $USER->id, 'flashcardid' => $flashcard->id, 'deck' => $deck];
 $DB->delete_records('flashcard_userdeck_state', $params);
 
 if (empty($subquestions)) {
@@ -56,9 +56,9 @@ if (!isset($SESSION->flashcard_consumed)) {
 } else {
     $consumed = explode(',', $SESSION->flashcard_consumed);
 }
-$subquestions = array();
+$subquestions = [];
 if (!empty($consumed)) {
-    list($usql, $inparams) = $DB->get_in_or_equal($consumed, SQL_PARAMS_QM, 'param0000', false); // Negative IN.
+    [$usql, $inparams] = $DB->get_in_or_equal($consumed, SQL_PARAMS_QM, 'param0000', false); // Negative IN.
     $select = "
         flashcardid = ? AND
         userid = ? AND
@@ -73,7 +73,7 @@ if (!empty($consumed)) {
     ";
 }
 
-$params = array($flashcard->id, $USER->id, $deck);
+$params = [$flashcard->id, $USER->id, $deck];
 if (!empty($inparams)) {
     foreach ($inparams as $p) {
         if (empty($p)) {
@@ -94,7 +94,7 @@ if ($cards = $DB->get_records_select('flashcard_card', $select, $params)) {
 } else {
     echo $out;
     echo $OUTPUT->box(get_string('nomorecards', 'flashcard'), 'notify');
-    echo $OUTPUT->continue_button($thisurl."?view=checkdecks&amp;id={$cm->id}");
+    echo $OUTPUT->continue_button($thisurl . "?view=checkdecks&amp;id={$cm->id}");
     echo $OUTPUT->footer($course);
     die;
 }

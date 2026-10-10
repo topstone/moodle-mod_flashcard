@@ -45,4 +45,3 @@ $string['reset'] = 'Jokoa berriz abiatu';
 $string['stylesheet'] = 'Estilo-orria gora kargatu';
 $string['summary'] = 'Karta-jokoaren deskribapena';
 $string['undefinedquestionset'] = 'Karta-joko honetarako ez da galderarik zehaztu';
-

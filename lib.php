@@ -23,9 +23,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/ddllib.php');
-require_once($CFG->dirroot.'/mod/flashcard/locallib.php');
-require_once($CFG->dirroot.'/mod/flashcard/mailtemplatelib.php');
+require_once($CFG->dirroot . '/lib/ddllib.php');
+require_once($CFG->dirroot . '/mod/flashcard/locallib.php');
+require_once($CFG->dirroot . '/mod/flashcard/mailtemplatelib.php');
 
 /**
  * Indicates API features that the forum supports.
@@ -42,7 +42,7 @@ require_once($CFG->dirroot.'/mod/flashcard/mailtemplatelib.php');
  * @return mixed True if yes (some features may use other values)
  */
 function flashcard_supports($feature) {
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_GROUPS: {
             return true;
         }
@@ -107,12 +107,12 @@ function flashcard_add_instance($flashcard) {
     }
 
     // Saves draft customization image files into definitive filearea.
-    $customimages = array('custombackfileid',
+    $customimages = ['custombackfileid',
                           'customfrontfileid',
                           'customemptyfileid',
                           'customreviewfileid',
                           'customreviewedfileid',
-                          'customreviewemptyfileid');
+                          'customreviewemptyfileid'];
     foreach ($customimages as $ci) {
         flashcard_save_draft_customimage($flashcard, $ci);
     }
@@ -157,12 +157,12 @@ function flashcard_update_instance($flashcard) {
     }
 
     // Saves draft customization image files into definitive filearea.
-    $customimages = array('custombackfileid',
+    $customimages = ['custombackfileid',
                           'customfrontfileid',
                           'customemptyfileid',
                           'customreviewfileid',
                           'customreviewedfileid',
-                          'customreviewemptyfileid');
+                          'customreviewemptyfileid'];
     foreach ($customimages as $ci) {
         flashcard_save_draft_customimage($flashcard, $ci);
     }
@@ -184,7 +184,7 @@ function flashcard_update_instance($flashcard) {
 function flashcard_delete_instance($id) {
     global $DB;
 
-    if (!$flashcard = $DB->get_record('flashcard', array('id' => $id))) {
+    if (!$flashcard = $DB->get_record('flashcard', ['id' => $id])) {
         return false;
     }
     if (!$cm = get_coursemodule_from_instance('flashcard', $flashcard->id)) {
@@ -196,14 +196,14 @@ function flashcard_delete_instance($id) {
     $result = true;
 
     // Delete any dependent records here.
-    $DB->delete_records('flashcard_deckdata', array('flashcardid' => $flashcard->id));
-    $DB->delete_records('flashcard_card', array('flashcardid' => $flashcard->id));
+    $DB->delete_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
+    $DB->delete_records('flashcard_card', ['flashcardid' => $flashcard->id]);
 
     // Now get rid of all files.
     $fs = get_file_storage();
     $fs->delete_area_files($context->id);
 
-    if (!$DB->delete_records('flashcard', array('id' => $flashcard->id))) {
+    if (!$DB->delete_records('flashcard', ['id' => $flashcard->id])) {
         $result = false;
     }
 
@@ -220,9 +220,8 @@ function flashcard_delete_instance($id) {
 function flashcard_user_outline($course, $user, $mod, $flashcard) {
     global $DB;
 
-    $params = array('userid' => $user->id, 'flashcardid' => $flashcard->id);
+    $params = ['userid' => $user->id, 'flashcardid' => $flashcard->id];
     if ($lastaccess = $DB->get_field('flashcard_card', 'MAX(lastaccessed)', $params)) {
-
         $return->time = $lastaccess;
         $return->info = get_string('lastaccessed', 'flashcard');
 
@@ -242,10 +241,10 @@ function flashcard_user_outline($course, $user, $mod, $flashcard) {
 function flashcard_user_complete($course, $user, $mod, $flashcard) {
     global $DB;
 
-    $cardsdeck = array();
-    $deckaccesscount = array();
+    $cardsdeck = [];
+    $deckaccesscount = [];
 
-    $params = array('userid' => $user->id, 'flashcardid' => $flashcard->id);
+    $params = ['userid' => $user->id, 'flashcardid' => $flashcard->id];
     if ($usercards = $DB->get_records('flashcard_card', $params)) {
         foreach ($usercards as $uc) {
             if (!array_key_exists($uc->deck, $cardsdeck)) {
@@ -329,7 +328,7 @@ function flashcard_get_participants($flashcardid) {
         WHERE
             flashcardid = ?
     ";
-    $userids = $DB->get_records_sql_menu($sql, array('flashcardid' => $flashcardid));
+    $userids = $DB->get_records_sql_menu($sql, ['flashcardid' => $flashcardid]);
     if ($userids) {
         $users = $DB->get_records_list('user', 'id', array_keys($userids));
     }
@@ -382,7 +381,7 @@ function flashcard_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
         return false;
     }
 
-    $allfileareas = array('intro',
+    $allfileareas = ['intro',
                           'questionsoundfile',
                           'questionimagefile',
                           'questionvideofile',
@@ -394,7 +393,7 @@ function flashcard_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
                           'customback',
                           'customreview',
                           'customreviewed',
-                          'customreviewempty');
+                          'customreviewempty'];
 
     if (!in_array($filearea, $allfileareas)) {
         return false;
@@ -404,8 +403,16 @@ function flashcard_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     $fs = get_file_storage();
 
-    if ($files = $fs->get_area_files($context->id, 'mod_flashcard', $filearea, $itemid,
-                                     "sortorder, itemid, filepath, filename", false)) {
+    if (
+        $files = $fs->get_area_files(
+            $context->id,
+            'mod_flashcard',
+            $filearea,
+            $itemid,
+            "sortorder, itemid, filepath, filename",
+            false
+        )
+    ) {
         $file = array_pop($files);
 
         // Finally send the file.
@@ -431,7 +438,7 @@ function flashcard_get_completion_state($course, $cm, $userid, $type) {
     global $DB;
 
     // Get flashcard details.
-    if (!($flashcard = $DB->get_record('flashcard', array('id' => $cm->instance)))) {
+    if (!($flashcard = $DB->get_record('flashcard', ['id' => $cm->instance]))) {
         throw new Exception("Can't find flashcard {$cm->instance}");
     }
 
@@ -440,10 +447,9 @@ function flashcard_get_completion_state($course, $cm, $userid, $type) {
     // Completion condition 1 is have no cards in deck.
 
     // Count all cards.
-    $allcards = $DB->count_records('flashcard_deckdata', array('flashcardid' => $flashcard->id));
+    $allcards = $DB->count_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
 
     if ($flashcard->completionallgood) {
-
         // Match any card that are NOT in last deck.
         $sql = "
             SELECT
@@ -455,7 +461,7 @@ function flashcard_get_completion_state($course, $cm, $userid, $type) {
                 c.flashcardid = ? AND
                 c.deck = ?
         ";
-        $good = $DB->count_records_sql($sql, array($userid, $flashcard->id, $flashcard->decks));
+        $good = $DB->count_records_sql($sql, [$userid, $flashcard->id, $flashcard->decks]);
         if ($type == COMPLETION_AND) {
             $result = $result && ($good == $allcards);
         } else {
@@ -474,7 +480,7 @@ function flashcard_get_completion_state($course, $cm, $userid, $type) {
                 c.userid = ? AND
                 c.flashcardid = ?
         ";
-        $viewed = $DB->count_records_sql($sql, array($userid, $flashcard->id));
+        $viewed = $DB->count_records_sql($sql, [$userid, $flashcard->id]);
 
         if ($type == COMPLETION_AND) {
             $result = $result && ($viewed >= min($allcards, $flashcard->completionallviewed));
@@ -502,7 +508,7 @@ function flashcard_reset_userdata($data) {
     global $DB;
 
     $componentstr = get_string('modulenameplural', 'flashcard');
-    $status = array();
+    $status = [];
 
     $allflashcardsql = "
         SELECT
@@ -517,12 +523,12 @@ function flashcard_reset_userdata($data) {
 
     // Remove all states and usr attempts unconditionally - even for users still enrolled in course.
     if (!empty($data->reset_flashcard_all)) {
-        $params = array($data->courseid);
+        $params = [$data->courseid];
         $DB->delete_records_select('flashcard_card', " flashcardid IN ($allflashcardsql) ", $params);
         $DB->delete_records_select('flashcard_userdeck_state', " flashcardid IN ($allflashcardsql) ", $params);
-        $status[] = array('component' => $componentstr,
+        $status[] = ['component' => $componentstr,
                           'item' => get_string('resetflashcardstates', 'flashcard'),
-                          'error' => false);
+                          'error' => false];
     }
 
     return $status;
@@ -543,7 +549,7 @@ function flashcard_reset_course_form_definition(&$mform) {
  * @return array
  */
 function flashcard_reset_course_form_defaults($course) {
-    return array('reset_flashcard_all' => 1);
+    return ['reset_flashcard_all' => 1];
 }
 
 
@@ -553,17 +559,17 @@ function flashcard_reset_course_form_defaults($course) {
 function flashcard_dbcleaner_add_keys() {
     global $DB;
 
-    $flashcardmoduleid = $DB->get_field('modules', 'id', array('name' => 'flashcard'));
+    $flashcardmoduleid = $DB->get_field('modules', 'id', ['name' => 'flashcard']);
 
-    $keys = array(
-        array('flashcard', 'course', 'course', 'id', ''),
-        array('flashcard', 'id', 'course_modules', 'instance', ' module = '.$flashcardmoduleid.' '),
-        array('flashcard_card', 'flashcardid', 'flashcard', 'id', ''),
-        array('flashcard_card', 'userid', 'user', 'id', ''),
-        array('flashcard_deckdata', 'flashcardid', 'flashcard', 'id', ''),
-        array('flashcard_userdeck_state', 'flashcardid', 'flashcard', 'id', ''),
-        array('flashcard_userdeck_state', 'userid', 'user', 'id', ''),
-    );
+    $keys = [
+        ['flashcard', 'course', 'course', 'id', ''],
+        ['flashcard', 'id', 'course_modules', 'instance', ' module = ' . $flashcardmoduleid . ' '],
+        ['flashcard_card', 'flashcardid', 'flashcard', 'id', ''],
+        ['flashcard_card', 'userid', 'user', 'id', ''],
+        ['flashcard_deckdata', 'flashcardid', 'flashcard', 'id', ''],
+        ['flashcard_userdeck_state', 'flashcardid', 'flashcard', 'id', ''],
+        ['flashcard_userdeck_state', 'userid', 'user', 'id', ''],
+    ];
 
     return $keys;
 }
@@ -572,19 +578,20 @@ function flashcard_extend_settings_navigation(settings_navigation $settingsnav, 
     global $DB;
 
     if (has_capability('mod/flashcard:manage', $settingsnav->get_page()->context)) {
-
-        $params = array('view' => 'summary', 'id' => $settingsnav->get_page()->cm->id, 'page' => 'byusers');
+        $params = ['view' => 'summary', 'id' => $settingsnav->get_page()->cm->id, 'page' => 'byusers'];
         $reportlink = new moodle_url("/mod/flashcard/view.php", $params);
         $flashcardnode->add(get_string('teachersummary', 'flashcard'), $reportlink, navigation_node::TYPE_CONTAINER);
 
-        $params = array('view' => 'manage', 'id' => $settingsnav->get_page()->cm->id);
+        $params = ['view' => 'manage', 'id' => $settingsnav->get_page()->cm->id];
         $reportlink = new moodle_url("/mod/flashcard/view.php", $params);
         $flashcardnode->add(get_string('edit', 'flashcard'), $reportlink, navigation_node::TYPE_SETTING);
 
         $flashcard = $DB->get_record('flashcard', ['id' => $settingsnav->get_page()->cm->instance]);
-        if (($flashcard->questionsmediatype == FLASHCARD_MEDIA_TEXT) &&
-                ($flashcard->answersmediatype == FLASHCARD_MEDIA_TEXT)) {
-            $params = array('what' => 'import', 'view' => 'manage', 'id' => $settingsnav->get_page()->cm->id);
+        if (
+            ($flashcard->questionsmediatype == FLASHCARD_MEDIA_TEXT) &&
+                ($flashcard->answersmediatype == FLASHCARD_MEDIA_TEXT)
+        ) {
+            $params = ['what' => 'import', 'view' => 'manage', 'id' => $settingsnav->get_page()->cm->id];
             $reportlink = new moodle_url("/mod/flashcard/view.php", $params);
             $flashcardnode->add(get_string('import', 'flashcard'), $reportlink, navigation_node::TYPE_SETTING);
         }

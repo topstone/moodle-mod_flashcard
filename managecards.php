@@ -18,14 +18,14 @@
  * @package   mod_flashbard
  * @category  mod
  */
-defined('MOODLE_INTERNAL') || die ();
+defined('MOODLE_INTERNAL') || die();
 
 if ($action) {
-    include($CFG->dirroot.'/mod/flashcard/manageview.controller.php');
+    include($CFG->dirroot . '/mod/flashcard/manageview.controller.php');
 }
 
 $pagesize = 20;
-$allcards = $DB->count_records('flashcard_deckdata', array('flashcardid' => $flashcard->id));
+$allcards = $DB->count_records('flashcard_deckdata', ['flashcardid' => $flashcard->id]);
 
 $page = optional_param('page', 0, PARAM_INT);
 $from = $page * $pagesize;
@@ -34,16 +34,16 @@ $from = $page * $pagesize;
 
 echo $out;
 
-$cards = $DB->get_records('flashcard_deckdata', array('flashcardid' => $flashcard->id), 'id', '*', $from, $pagesize);
+$cards = $DB->get_records('flashcard_deckdata', ['flashcardid' => $flashcard->id], 'id', '*', $from, $pagesize);
 
 $backstr = get_string('backside', 'flashcard');
 $frontstr = get_string('frontside', 'flashcard');
 
 $table = new html_table();
-$table->head = array('', "<b>$backstr</b>", "<b>$frontstr</b>", '');
-$table->size = array('10%', '40%', '40%', '10%');
+$table->head = ['', "<b>$backstr</b>", "<b>$frontstr</b>", ''];
+$table->size = ['10%', '40%', '40%', '10%'];
 $table->width = '100%';
-$table->align = array('center', 'center', 'center', 'center');
+$table->align = ['center', 'center', 'center', 'center'];
 
 $i = 0;
 if ($cards) {
@@ -78,29 +78,29 @@ if ($cards) {
             $front = format_text($card->answertext, FORMAT_MOODLE);
         }
 
-        $params = array('id' => $id, 'view' => 'edit', 'what' => 'update', 'cardid' => $card->id);
+        $params = ['id' => $id, 'view' => 'edit', 'what' => 'update', 'cardid' => $card->id];
         $editurl = new moodle_url('/mod/flashcard/view.php', $params);
         $command = html_writer::link($editurl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
 
-        $params = array('id' => $id, 'view' => 'manage', 'what' => 'delete', 'items[]' => $card->id, 'sesskey' => sesskey());
+        $params = ['id' => $id, 'view' => 'manage', 'what' => 'delete', 'items[]' => $card->id, 'sesskey' => sesskey()];
         $deleteurl = new moodle_url('/mod/flashcard/view.php', $params);
         $command .= ' ' . html_writer::link($deleteurl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        $table->data[] = array($check, $back, $front, $command);
+        $table->data[] = [$check, $back, $front, $command];
         $i++;
     }
 
     echo '<center>';
-    echo $OUTPUT->paging_bar($allcards, $page, $pagesize, $url.'?id='.$id.'&view=manage', 'page');
+    echo $OUTPUT->paging_bar($allcards, $page, $pagesize, $url . '?id=' . $id . '&view=manage', 'page');
     echo '</center>';
-    echo '<form name="deletecards" action="'.$url.'" method="post">';
-    echo '<input type="hidden" name="sesskey" value="'.sesskey().'" />';
+    echo '<form name="deletecards" action="' . $url . '" method="post">';
+    echo '<input type="hidden" name="sesskey" value="' . sesskey() . '" />';
     echo '<input type="hidden" name="view" value="manage" />';
     echo '<input type="hidden" name="what" value="delete" />';
-    echo '<input type="hidden" name="id" value="'.$id.'" />';
+    echo '<input type="hidden" name="id" value="' . $id . '" />';
     echo html_writer::table($table);
     echo '</form>';
     echo '<center>';
-    $url = new moodle_url('/mod/flashcard/view.php', array('id' => $id, 'view' => 'manage'));
+    $url = new moodle_url('/mod/flashcard/view.php', ['id' => $id, 'view' => 'manage']);
     echo $OUTPUT->paging_bar($allcards, $page, $pagesize, $url, 'page');
     echo '</center>';
 } else {
@@ -115,13 +115,13 @@ $sesskey = sesskey();
 echo '<div class="rightlinks">';
 if ($cards) {
     $jshandler = 'javascript:document.forms[\'deletecards\'].submit();';
-    echo '<a href="'.$jshandler.'">'.$deleteselectionstr.'</a> - ';
+    echo '<a href="' . $jshandler . '">' . $deleteselectionstr . '</a> - ';
 }
 
-$params = array('id' => $id, 'view' => 'edit', 'what' => 'addone', 'sesskey' => sesskey());
+$params = ['id' => $id, 'view' => 'edit', 'what' => 'addone', 'sesskey' => sesskey()];
 $addurl = new moodle_url('/mod/flashcard/view.php', $params);
-echo '<a href="'.$addurl.'">'.$addone.'</a> - ';
+echo '<a href="' . $addurl . '">' . $addone . '</a> - ';
 
-$params = array('id' => $id, 'view' => 'edit', 'what' => 'addthree', 'sesskey' => sesskey());
+$params = ['id' => $id, 'view' => 'edit', 'what' => 'addthree', 'sesskey' => sesskey()];
 $addthreeurl = new moodle_url('/mod/flashcard/view.php', $params);
-echo '<a href="'.$addthreeurl.'">'.$addthree.'</a></div>';
+echo '<a href="' . $addthreeurl . '">' . $addthree . '</a></div>';

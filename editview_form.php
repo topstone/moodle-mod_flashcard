@@ -24,10 +24,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 class CardEdit_Form extends moodleform {
-
     public function definition() {
 
         $mform = $this->_form;
@@ -53,7 +52,7 @@ class CardEdit_Form extends moodleform {
 
         for ($i = 0; $i < $num; $i++) {
             $cardnum = $i + 1;
-            $mform->addElement('header', 'card'.$i, get_string('card', 'flashcard'). ' '.$cardnum);
+            $mform->addElement('header', 'card' . $i, get_string('card', 'flashcard') . ' ' . $cardnum);
             $mform->addElement('html', '<table width=100%">');
             $mform->addElement('html', '<tr><td width="50%">');
 
@@ -80,25 +79,25 @@ class CardEdit_Form extends moodleform {
         $mform = $this->_form;
 
         $sideprefix = substr($side, 0, 1);
-        $key = $side.'smediatype';
+        $key = $side . 'smediatype';
         $mediatype = $this->_customdata['flashcard']->$key;
 
         if ($mediatype == FLASHCARD_MEDIA_IMAGE) {
-            $options = array('maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => array('.jpg', '.png', '.gif'));
-            $mform->addElement('filepicker', $sideprefix.$podid, '', null, $options);
+            $options = ['maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => ['.jpg', '.png', '.gif']];
+            $mform->addElement('filepicker', $sideprefix . $podid, '', null, $options);
         } else if ($mediatype == FLASHCARD_MEDIA_SOUND) {
-            $options = array('maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => array('.mp3', '.swf'));
-            $mform->addElement('filepicker', $sideprefix.$podid, '', null, $options);
+            $options = ['maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => ['.mp3', '.swf']];
+            $mform->addElement('filepicker', $sideprefix . $podid, '', null, $options);
         } else if ($mediatype == FLASHCARD_MEDIA_VIDEO) {
-            $options = array('maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => array('.mp4', '.flv'));
-            $mform->addElement('filepicker', $sideprefix.$podid, '', null, $options);
+            $options = ['maxfiles' => 1, 'maxbytes' => $COURSE->maxbytes, 'accepted_types' => ['.mp4', '.flv']];
+            $mform->addElement('filepicker', $sideprefix . $podid, '', null, $options);
         } else if ($mediatype == FLASHCARD_MEDIA_IMAGE_AND_SOUND) {
-            $options = array('maxbytes' => $COURSE->maxbytes, 'accepted_types' => array('.jpg', '.png', '.gif'));
-            $mform->addElement('filepicker', $sideprefix.'i'.$podid, get_string('image', 'flashcard'), null, $options);
-            $options = array('maxbytes' => $COURSE->maxbytes, 'accepted_types' => array('.mp3', '.swf'));
-            $mform->addElement('filepicker', $sideprefix.'s'.$podid, get_string('sound', 'flashcard'), null, $options);
+            $options = ['maxbytes' => $COURSE->maxbytes, 'accepted_types' => ['.jpg', '.png', '.gif']];
+            $mform->addElement('filepicker', $sideprefix . 'i' . $podid, get_string('image', 'flashcard'), null, $options);
+            $options = ['maxbytes' => $COURSE->maxbytes, 'accepted_types' => ['.mp3', '.swf']];
+            $mform->addElement('filepicker', $sideprefix . 's' . $podid, get_string('sound', 'flashcard'), null, $options);
         } else {
-            $mform->addElement('textarea', $sideprefix.$podid, '', array('cols' => 60, 'rows' => 4));
+            $mform->addElement('textarea', $sideprefix . $podid, '', ['cols' => 60, 'rows' => 4]);
         }
     }
 
@@ -110,7 +109,7 @@ class CardEdit_Form extends moodleform {
         global $DB;
 
         if ($cardid = $this->_customdata['cardid']) {
-            $card = $DB->get_record('flashcard_deckdata', array('id' => $cardid));
+            $card = $DB->get_record('flashcard_deckdata', ['id' => $cardid]);
 
             $flashcard = $this->_customdata['flashcard'];
 
@@ -143,42 +142,42 @@ class CardEdit_Form extends moodleform {
 
         switch ($mediatype) {
             case FLASHCARD_MEDIA_IMAGE:
-                $filearea = $side.'imagefile';
+                $filearea = $side . 'imagefile';
                 break;
 
             case FLASHCARD_MEDIA_SOUND:
-                $filearea = $side.'soundfile';
+                $filearea = $side . 'soundfile';
                 break;
 
             case FLASHCARD_MEDIA_VIDEO:
-                $filearea = $side.'videofile';
+                $filearea = $side . 'videofile';
                 break;
 
             case FLASHCARD_MEDIA_IMAGE_AND_SOUND:
-                $filearea = $side.'imagefile';
-                $filearea2 = $side.'soundfile';
+                $filearea = $side . 'imagefile';
+                $filearea2 = $side . 'soundfile';
                 break;
 
             default:
                 throw new \moodle_exception('errorunsupportedformat', 'flashcard');
         }
 
-        $fileoptions = array('subdirs' => 0, 'maxbytes' => $COURSE->maxbytes, 'maxfiles' => 1);
+        $fileoptions = ['subdirs' => 0, 'maxbytes' => $COURSE->maxbytes, 'maxfiles' => 1];
 
         if ($mediatype != FLASHCARD_MEDIA_IMAGE_AND_SOUND) {
-            $elmname = $sideprefix.'0';
+            $elmname = $sideprefix . '0';
             $draftitemid = file_get_submitted_draft_itemid($elmname);
             $maxbytes = 100000;
             file_prepare_draft_area($draftitemid, $context->id, 'mod_flashcard', $filearea, $card->id, $fileoptions);
             $data->$elmname = $draftitemid;
         } else if ($mediatype == FLASHCARD_MEDIA_IMAGE_AND_SOUND) {
-            $elmname = $sideprefix.'i0';
+            $elmname = $sideprefix . 'i0';
             $draftitemid = file_get_submitted_draft_itemid($elmname);
             $maxbytes = 100000;
             file_prepare_draft_area($draftitemid, $context->id, 'mod_flashcard', $filearea, $card->id, $fileoptions);
             $data->$elmname = $draftitemid;
 
-            $elmname = $sideprefix.'s0';
+            $elmname = $sideprefix . 's0';
             $draftitemid = file_get_submitted_draft_itemid($elmname);
             $maxbytes = 100000;
             file_prepare_draft_area($draftitemid, $context->id, 'mod_flashcard', $filearea2, $card->id, $fileoptions);

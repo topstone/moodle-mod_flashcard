@@ -24,10 +24,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 class flashcard_import_form extends moodleform {
-
     public function definition() {
 
         $mform =& $this->_form;
@@ -51,7 +50,7 @@ class flashcard_import_form extends moodleform {
         $fieldsepoptions[2] = ';';
         $mform->addElement('select', 'fieldsep', get_string('fieldsep', 'flashcard'), $fieldsepoptions);
 
-        $mform->addElement('textarea', 'import', get_string('imported', 'flashcard'), array('rows' => 20, 'cols' => 60));
+        $mform->addElement('textarea', 'import', get_string('imported', 'flashcard'), ['rows' => 20, 'cols' => 60]);
         $mform->setType('import', PARAM_TEXT);
 
         $mform->addElement('checkbox', 'confirm', get_string('confirm', 'flashcard'), get_string('importadvice', 'flashcard'));
