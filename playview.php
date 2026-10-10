@@ -25,7 +25,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$PAGE->requires->js('/mod/flashcard/players/flowplayer/flowplayer.js');
+$this->page->requires->js('/mod/flashcard/players/flowplayer/flowplayer.js');
 
 // Invoke controller.
 

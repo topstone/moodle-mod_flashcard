@@ -50,12 +50,12 @@ $strflashcard  = get_string('modulename', 'flashcard');
 
 // Print the header.
 
-$PAGE->set_url(new moodle_url('/mod/flashcard/index.php', array('id' => $course->id)));
-$PAGE->set_context($context);
-$PAGE->set_pagelayout('incourse');
-$PAGE->navbar->add($strflashcards);
-$PAGE->set_heading(format_string($course->fullname));
-$PAGE->set_title(get_string('modulename', 'feedback').' '.get_string('activities'));
+$this->page->set_url(new moodle_url('/mod/flashcard/index.php', array('id' => $course->id)));
+$this->page->set_context($context);
+$this->page->set_pagelayout('incourse');
+$this->page->navbar->add($strflashcards);
+$this->page->set_heading(format_string($course->fullname));
+$this->page->set_title(get_string('modulename', 'feedback').' '.get_string('activities'));
 echo $OUTPUT->header();
 
 // Get all the appropriate data.

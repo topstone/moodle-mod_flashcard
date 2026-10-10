@@ -31,7 +31,6 @@ require_once($CFG->dirroot.'/repository/lib.php');
 class mod_flashcard_renderer extends plugin_renderer_base {
 
     public function filepicker($elname, $value, $contextid, $filearea, $cardid, $maxbytes, $acceptedtypes = '*') {
-        global $COURSE, $PAGE;
 
         $str = '';
 
@@ -45,7 +44,7 @@ class mod_flashcard_renderer extends plugin_renderer_base {
             $draftitemid = file_get_unused_draft_itemid();
         }
 
-        if ($COURSE->id == SITEID) {
+        if ($this->page->course->id == SITEID) {
             $context = context_system::instance();
         } else {
             $context = context_course::instance($COURSE->id);
@@ -63,7 +62,7 @@ class mod_flashcard_renderer extends plugin_renderer_base {
 
         $fp = new file_picker($args);
         $options = $fp->options;
-        $options->context = $PAGE->context;
+        $options->context = $this->page->context;
         $str .= $this->output->render($fp);
         $str .= '<input type="hidden" name="'.$elname.'" id="'.$id.'" value="'.$draftitemid.'" class="filepickerhidden"/>';
 
@@ -73,7 +72,7 @@ class mod_flashcard_renderer extends plugin_renderer_base {
             'requires' => array('core_filepicker', 'node', 'node-event-simulate')
         );
 
-        $PAGE->requires->js_init_call('M.form_filepicker.init', array($fp->options), true, $module);
+        $this->page->requires->js_init_call('M.form_filepicker.init', array($fp->options), true, $module);
 
         $params = array(
             'env' => 'filepicker',
@@ -82,8 +81,8 @@ class mod_flashcard_renderer extends plugin_renderer_base {
             'subdirs' => 0,
             'maxbytes' => $options->maxbytes,
             'maxfiles' => 1,
-            'ctx_id' => $PAGE->context->id,
-            'course' => $PAGE->course->id,
+            'ctx_id' => $this->page->context->id,
+            'course' => $this->page->course->id,
             'sesskey' => sesskey(),
         );
         $nonjsfilepicker = new moodle_url('/repository/draftfiles_manager.php', $params);
