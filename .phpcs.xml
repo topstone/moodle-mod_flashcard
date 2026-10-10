@@ -29,4 +29,9 @@
   <rule ref="moodle.Files.MoodleInternal">
     <severity>0</severity>
   </rule>
+
+  <!-- 5. CASE / DEFAULT ステートメントのコロン定義エラーを無視 -->
+  <rule ref="Generic.ControlStructures.ControlSignature">
+    <severity>0</severity>
+  </rule>
 </ruleset>
